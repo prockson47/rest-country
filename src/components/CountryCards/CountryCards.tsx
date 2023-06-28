@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import "./CountryCards.css";
 
 interface Country {
   name: string;
@@ -9,7 +10,11 @@ interface Country {
   alpha3Code: string;
 }
 
-const CountryCards: React.FC = () => {
+interface CountryCardsProps {
+  limit: number;
+}
+
+const CountryCards: React.FC<CountryCardsProps> = ({ limit }) => {
   const [filteredCountries, setFilteredCountries] = useState<Country[]>([]);
   const [searchValue, setSearchValue] = useState("");
 
@@ -31,7 +36,7 @@ const CountryCards: React.FC = () => {
         country.name.toLowerCase().includes(searchValue.toLowerCase())
       );
     }
-    return filtered;
+    return filtered.slice(0, limit);
   };
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {

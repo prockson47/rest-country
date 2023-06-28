@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import "./App.css";
+import Header from "../src/components/Header/Header";
 import CountryCard from "../src/components/CountryCard/Countrycard";
 
 type Country = {
@@ -12,7 +14,8 @@ type Country = {
 const App: React.FC = () => {
   const [countries, setCountries] = useState<Country[]>([]);
   const [filteredCountries, setFilteredCountries] = useState<Country[]>([]);
-  const [selectedRegion, setSelectedRegion] = useState("");
+  const [selectedRegion, setSelectedRegion] = useState<string>("");
+  const [searchValue, setSearchValue] = useState<string>("");
 
   useEffect(() => {
     const fetchCountries = async () => {
@@ -27,63 +30,72 @@ const App: React.FC = () => {
 
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     const searchValue = event.target.value.toLowerCase();
-    const filtered = countries.filter((country) =>
-      country.name.toLowerCase().includes(searchValue)
-    );
-    setFilteredCountries(filtered);
+    setSearchValue(searchValue);
+    filterCountries(selectedRegion, searchValue);
   };
 
   const handleRegionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedRegion = event.target.value;
     setSelectedRegion(selectedRegion);
-    filterCountries(selectedRegion);
+    filterCountries(selectedRegion, searchValue);
   };
 
-  const filterCountries = (selectedRegion: string) => {
+  const filterCountries = (selectedRegion: string, searchValue: string) => {
+    let filtered = countries;
+
     if (selectedRegion) {
-      const filtered = countries.filter(
+      filtered = filtered.filter(
         (country) => country.region === selectedRegion
       );
-      setFilteredCountries(filtered);
-    } else {
-      setFilteredCountries(countries);
     }
+
+    if (searchValue) {
+      filtered = filtered.filter((country) =>
+        country.name.toLowerCase().includes(searchValue)
+      );
+    }
+
+    setFilteredCountries(filtered);
   };
 
   return (
-    <div>
-      <div className="search-container">
-        <span className="search-icon">
-          <i className="fa fa-search" aria-hidden="true"></i>
-        </span>
-        <input
-          type="text"
-          placeholder="Search by country"
-          className="countrySearch"
-          onChange={handleSearch}
-        />
-      </div>
+    <div className="App">
+      <Header />
+      <main>
+        <div className="search-container">
+          <span className="search-icon">
+            <i className="fa fa-search" aria-hidden="true"></i>
+          </span>
+          <input
+            type="text"
+            placeholder="Search by country"
+            className="countrySearch"
+            value={searchValue}
+            onChange={handleSearch}
+          />
+        </div>
 
-      <div className="dropdown">
-        <select
-          id="region-select"
-          value={selectedRegion}
-          onChange={handleRegionChange}
-        >
-          <option value="">Filter by Region</option>
-          <option value="Africa">Africa</option>
-          <option value="Americas">Americas</option>
-          <option value="Asia">Asia</option>
-          <option value="Europe">Europe</option>
-          <option value="Oceania">Oceania</option>
-        </select>
-      </div>
+        <div className="dropdown">
+          <select
+            id="region-select"
+            value={selectedRegion}
+            onChange={handleRegionChange}
+          >
+            <option value="">Filter by Region</option>
+            <option value="Africa">Africa</option>
+            <option value="Americas">Americas</option>
+            <option value="Asia">Asia</option>
+            <option value="Europe">Europe</option>
+            <option value="Oceania">Oceania</option>
+          </select>
+        </div>
 
-      <div className="country-grid">
-        {filteredCountries.map((country) => (
-          <CountryCard key={country.name} countryData={country} />
-        ))}
-      </div>
+        <div className="country-grid">
+          {filteredCountries.map((country) => (
+            <CountryCard key={country.name} countryData={country} />
+          ))}
+        </div>
+      </main>
     </div>
   );
 };
