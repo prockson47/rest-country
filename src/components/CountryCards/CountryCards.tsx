@@ -10,11 +10,31 @@ interface Country {
   alpha3Code: string;
 }
 
-interface CountryCardsProps {
-  limit: number;
+interface CountryCardProps {
+  country: Country;
 }
 
-const CountryCards: React.FC<CountryCardsProps> = ({ limit }) => {
+const CountryCard: React.FC<CountryCardProps> = ({ country }) => {
+  const { name, flag, population, region, capital, alpha3Code } = country;
+
+  const handleClick = () => {
+    const url = `country-detail?countryName=${name}&capital=${capital}&population=${population}`;
+    window.open(url, "_blank");
+  };
+
+
+  return (
+    <div className="country-card" onClick={handleClick}>
+      <img id="flag" src={flag} alt={name} className="flag-image" />
+      <h2 id="countryName">{name}</h2>
+      <p id="population">Population: {population}</p>
+      <p id="region">Region: {region}</p>
+      <p id="capital">Capital: {capital}</p>
+    </div>
+  );
+};
+
+const CountryCards: React.FC = () => {
   const [filteredCountries, setFilteredCountries] = useState<Country[]>([]);
   const [searchValue, setSearchValue] = useState("");
 
@@ -29,14 +49,13 @@ const CountryCards: React.FC<CountryCardsProps> = ({ limit }) => {
   }, []);
 
   const filterCountries = () => {
-    // Filter countries based on searchValue
     let filtered = filteredCountries;
     if (searchValue) {
       filtered = filtered.filter((country) =>
         country.name.toLowerCase().includes(searchValue.toLowerCase())
       );
     }
-    return filtered.slice(0, limit);
+    return filtered;
   };
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -58,45 +77,13 @@ const CountryCards: React.FC<CountryCardsProps> = ({ limit }) => {
         />
       </div>
 
-      {/* Add a dropdown button for the regions */}
-      <div className="dropdown">
-        {/* <button className="dropdown-button">Filter by Region</button> */}
-        <div className="dropdown-content">
-          <select id="region-select">
-            <option value="">Filter by Region</option>
-          </select>
-        </div>
-      </div>
-
-      {/* Render the country cards */}
       <div className="country-cards">
-        {filterCountries().map((country) => (
-          <CountryCard key={country.alpha3Code} country={country} />
-        ))}
+        {filterCountries()
+          .slice(0, 8)
+          .map((country) => (
+            <CountryCard key={country.alpha3Code} country={country} />
+          ))}
       </div>
-    </div>
-  );
-};
-
-interface CountryCardProps {
-  country: Country;
-}
-
-const CountryCard: React.FC<CountryCardProps> = ({ country }) => {
-  const { name, flag, population, region, capital, alpha3Code } = country;
-
-  const handleClick = () => {
-    // Redirect to country.html with country code as query parameter
-    window.location.href = `country.html?code=${alpha3Code}`;
-  };
-
-  return (
-    <div className="country-card" onClick={handleClick}>
-      <img id="flag" src={flag} alt={name} className="flag-image" />
-      <h2 id="countryName">{name}</h2>
-      <p id="population">Population: {population}</p>
-      <p id="region">Region: {region}</p>
-      <p id="capital">Capital: {capital}</p>
     </div>
   );
 };

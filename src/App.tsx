@@ -2,13 +2,67 @@ import React, { useEffect, useState } from "react";
 import "./App.css";
 import Header from "../src/components/Header/Header";
 import CountryCard from "../src/components/CountryCard/Countrycard";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  RouteProps,
+  useParams,
+  useLocation,
+} from "react-router-dom";
+import CountryCards from "../src/components/CountryCards/CountryCards";
+import CountryDetail from "../src/components/CountryDetail/CountryDetail";
 
 type Country = {
   name: string;
   flag: string;
   population: number;
   region: string;
+  capital?: string;
+};
+
+type CountryDetailProps = {
+  countryName: string;
   capital: string;
+  population: number;
+};
+
+const CountryDetailWrapper: React.FC = () => {
+  const { search } = useLocation();
+  const queryParams = new URLSearchParams(search);
+  const countryName = queryParams.get("countryName");
+  const capital = queryParams.get("capital");
+  const population = queryParams.get("population");
+
+  const [country, setCountry] = useState<Country | null>(null);
+
+  useEffect(() => {
+    const fetchCountry = async () => {
+      if (countryName) {
+        const response = await fetch(
+          `https://restcountries.com/v2/name/${countryName}`
+        );
+        const data = await response.json();
+        if (Array.isArray(data)) {
+          setCountry(data[0]);
+        }
+      }
+    };
+
+    fetchCountry();
+  }, [countryName]);
+
+  if (!country) {
+    return <div>Country not found</div>;
+  }
+
+  return (
+    <CountryDetail
+      countryName={countryName || ""}
+      capital={capital || ""}
+      population={population ? parseInt(population) : 0}
+    />
+  );
 };
 
 const App: React.FC = () => {
@@ -59,44 +113,15 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="App">
-      <Header />
-      <main>
-        <div className="search-container">
-          <span className="search-icon">
-            <i className="fa fa-search" aria-hidden="true"></i>
-          </span>
-          <input
-            type="text"
-            placeholder="Search by country"
-            className="countrySearch"
-            value={searchValue}
-            onChange={handleSearch}
-          />
-        </div>
-
-        <div className="dropdown">
-          <select
-            id="region-select"
-            value={selectedRegion}
-            onChange={handleRegionChange}
-          >
-            <option value="">Filter by Region</option>
-            <option value="Africa">Africa</option>
-            <option value="Americas">Americas</option>
-            <option value="Asia">Asia</option>
-            <option value="Europe">Europe</option>
-            <option value="Oceania">Oceania</option>
-          </select>
-        </div>
-
-        <div className="country-grid">
-          {filteredCountries.map((country) => (
-            <CountryCard key={country.name} countryData={country} />
-          ))}
-        </div>
-      </main>
-    </div>
+    <Router>
+      <div className="App">
+        <Header />
+        <Routes>
+          <Route path="/" element={<CountryCards />} />
+          <Route path="/country-detail" element={<CountryDetailWrapper />} />
+        </Routes>
+      </div>
+    </Router>
   );
 };
 

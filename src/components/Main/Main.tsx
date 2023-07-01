@@ -7,7 +7,7 @@ const Main: React.FC = () => {
   return (
     <main className="main">
       <div className="country-cards">
-        <CountryCards limit={8} />
+        <CountryCards />
       </div>
     </main>
   );
