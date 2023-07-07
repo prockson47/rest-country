@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./CountryCards.css";
+import CountryCard from "../CountryCard/Countrycard";
 
 interface Country {
   name: string;
@@ -10,33 +11,10 @@ interface Country {
   alpha3Code: string;
 }
 
-interface CountryCardProps {
-  country: Country;
-}
-
-const CountryCard: React.FC<CountryCardProps> = ({ country }) => {
-  const { name, flag, population, region, capital, alpha3Code } = country;
-
-  const handleClick = () => {
-    const url = `country-detail?countryName=${name}&capital=${capital}&population=${population}`;
-    window.open(url, "_blank");
-  };
-
-
-  return (
-    <div className="country-card" onClick={handleClick}>
-      <img id="flag" src={flag} alt={name} className="flag-image" />
-      <h2 id="countryName">{name}</h2>
-      <p id="population">Population: {population}</p>
-      <p id="region">Region: {region}</p>
-      <p id="capital">Capital: {capital}</p>
-    </div>
-  );
-};
-
 const CountryCards: React.FC = () => {
   const [filteredCountries, setFilteredCountries] = useState<Country[]>([]);
   const [searchValue, setSearchValue] = useState("");
+  const [selectedRegion, setSelectedRegion] = useState("");
 
   useEffect(() => {
     const fetchCountries = async () => {
@@ -50,6 +28,11 @@ const CountryCards: React.FC = () => {
 
   const filterCountries = () => {
     let filtered = filteredCountries;
+    if (selectedRegion) {
+      filtered = filtered.filter((country) =>
+        country.region.toLowerCase().includes(selectedRegion.toLowerCase())
+      );
+    }
     if (searchValue) {
       filtered = filtered.filter((country) =>
         country.name.toLowerCase().includes(searchValue.toLowerCase())
@@ -62,8 +45,12 @@ const CountryCards: React.FC = () => {
     setSearchValue(e.target.value);
   };
 
+  const handleRegionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedRegion(e.target.value);
+  };
+
   return (
-    <div>
+    <div className="main-card">
       <div className="search-container">
         <span className="search-icon">
           <i className="fa fa-search" aria-hidden="true"></i>
@@ -75,13 +62,25 @@ const CountryCards: React.FC = () => {
           value={searchValue}
           onChange={handleSearchChange}
         />
+        <select
+          className="region-dropdown"
+          value={selectedRegion}
+          onChange={handleRegionChange}
+        >
+          <option value="">Search by Region</option>
+          <option value="Africa">Africa</option>
+          <option value="Americas">Americas</option>
+          <option value="Asia">Asia</option>
+          <option value="Europe">Europe</option>
+          <option value="Oceania">Oceania</option>
+        </select>
       </div>
 
-      <div className="country-cards">
+      <div className="Main-div">
         {filterCountries()
           .slice(0, 8)
           .map((country) => (
-            <CountryCard key={country.alpha3Code} country={country} />
+            <CountryCard key={country.alpha3Code} countryData={country} />
           ))}
       </div>
     </div>

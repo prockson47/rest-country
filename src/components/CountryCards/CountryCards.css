@@ -1,6 +1,243 @@
-.country-grid{
+* {
+    /* background-color: green; */
+    /* display: none; */
+    font-family: 'Nunito Sans', sans-serif;
+    /* font-size: 60px; */
+}
+
+.header{
+    background-color: #fff;
+    display: flex;
+    justify-content: space-between;
+    padding-left: 81px;
+    padding-right: 81px;
+    color: black;
+    /* margin-bottom: 20px; */
+    height: 80px;
+}
+
+.dark-mode .header {
+  /* Dark theme styles */
+  background: #2B3844;
+box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.06);
+  color: white;
+}
+
+.dark-mode .themeSwitch {
+  /* Dark theme styles */
+  background: #2B3844;
+  color: white;
+  /* background-color: blue; */
+}
+
+.themeSwitch{
+    background-color: #fff;
+    height: 22px;
+    position: relative;
+    top:28px;
+    align-items: center;
+    color: #111517;
+font-size: 16px;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+border: none;
+}
+
+main{
+    /* background-color: yellow; */
+    padding-left: 78px;
+    padding-right:  78px;
+}
+
+.dropdown{
+    position: relative;
+    left: 91.3%;
+    top: -24px;
+    width: 200px;
+height: 56px;
+flex-shrink: 0;
+position: relative;
+top: -58.4px;
+left: 76.5em;
+border-radius: 8px;
+background-color: white;
+}
+
+.dark-mode .dropdown{
+  /* Dark theme styles */
+background: #2B3844;
+  color: white;
+  box-shadow: 0px 2px 9px 0px rgba(0, 0, 0, 0.05);
+
+}
+
+select:focus {
+  outline: none;
+}
+
+
+#region-select{
+    width: 200px;
+height: 56px;
+flex-shrink: 0;
+border-radius: 5px;
+background: #FFF;
+box-shadow: 0px 2px 9px 0px rgba(0, 0, 0, 0.05);
+border: none;
+
+}
+
+.region-dropdown{
+    /* display: none; */
+    width: 200px;
+height: 56px;
+flex-shrink: 0;
+border-radius: 5px;
+background: #FFF;
+box-shadow: 0px 2px 9px 0px rgba(0, 0, 0, 0.05);
+border: none;
+}
+
+
+.search-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 80px;
+  /* margin-top: 20px; */
+  position: relative;
+  top: 40px;
+}
+
+
+
+.search-icon{
+     width: 480px;
+height: 56px;
+flex-shrink: 0;
+border-radius: 5px;
+background: #FFF;
+box-shadow: 0px 2px 9px 0px rgba(0, 0, 0, 0.05);
+}
+
+
+.countrySearch{
+     width: 480px;
+height: 56px;
+flex-shrink: 0;
+border-radius: 5px;
+border: none;
+background: #FFF;
+box-shadow: 0px 2px 9px 0px rgba(0, 0, 0, 0.05);
+position: relative;
+right: 23.5%;
+}
+
+input:focus {
+  outline: none;
+}
+
+
+.Main-div{
     display: grid;
   grid-template-columns: repeat(4, 1fr);
-  grid-gap: 20px;
-  background-color: green;
+  grid-gap: 80px;
+  background: #FAFAFA;
+  border-radius: 8px;
 }
+
+.div-main{
+    border-radius: 5px;
+background: #FFF;
+box-shadow: 0px 0px 7px 2px rgba(0, 0, 0, 0.03);
+}
+
+.country-card {
+  width: 100%;
+  height: 336px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+}
+
+.main-card{
+    background-color: #FAFAFA;
+}
+
+#countryName, #population, #region, #capital{
+padding-left: 10%;
+}
+
+#flag{
+    width: 100%;
+    height: 160px;
+    border-radius: 8px;
+}
+
+
+.countryName{
+    color: #111517;
+font-size: 18px;
+/* font-family: Nunito Sans; */
+font-style: normal;
+font-weight: 800;
+line-height: 26px;
+text-decoration: none !important;
+}
+
+.population {
+    text-decoration: none !important;
+    /* color: red; */
+    display: flex;
+  align-items: center;
+  color: #111517;
+font-size: 14px;
+font-family: Nunito Sans;
+font-style: normal;
+font-weight: 600;
+line-height: 16px;
+}
+#population-left {
+  margin-left: 35px;
+}
+
+.region{
+    color: black;
+    display: flex;
+  align-items: center;
+  color: #111517;
+font-size: 14px;
+font-family: Nunito Sans;
+font-style: normal;
+font-weight: 600;
+line-height: 16px;
+}
+#region-left {
+  margin-left: 35px;
+}
+
+.capital {
+  display: flex;
+  align-items: center;
+  color: #111517;
+font-size: 14px;
+font-family: Nunito Sans;
+font-style: normal;
+font-weight: 600;
+line-height: 16px;
+}
+
+#capital-left {
+  margin-left: 35px;
+}
+
+
+#capital-right, #region-right, #population-right{
+  font-weight: 300;
+      text-decoration: none !important;
+
+}
+
+
+
+

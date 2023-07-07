@@ -1,0 +1,46 @@
+/* dark-theme.css
+
+body {
+  background-color: #2b2b2b;
+  color: #ffffff;
+}
+
+.Main-div {
+  background-color: #1f1f1f;
+  color: #ffffff;
+}
+
+.country-card {
+  background-color: #333333;
+}
+
+#countryName {
+  text-decoration: none;
+}
+
+#population,
+#region,
+#capital {
+  color: #bbbbbb;
+}
+
+.search-container {
+  background-color: #1f1f1f;
+  color: #ffffff;
+}
+
+.countrySearch {
+  background-color: #333333;
+  color: #ffffff;
+}
+
+.dropdown {
+  background-color: #333333;
+  color: #ffffff;
+}
+
+.dropdown select {
+  background-color: #333333;
+  color: #ffffff;
+}
+ */

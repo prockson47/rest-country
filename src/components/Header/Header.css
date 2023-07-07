@@ -6,15 +6,23 @@
 }
 
 .header{
-    background-color: blue;
+    /* background-color: blue; */
     display: flex;
     justify-content: space-between;
     padding-left: 81px;
     padding-right: 81px;
     color: black;
-    margin-bottom: 20px;
+    /* margin-bottom: 20px; */
     height: 80px;
 }
+
+
+
+.dark-mode .header {
+  /* Dark theme styles */
+  background-color: yellow;
+}
+
 
 .themeSwitch{
     /* background-color: yellow; */
@@ -24,10 +32,22 @@
     align-items: center;
 }
 
-main{
-    /* background-color: yellow; */
-    padding-left: 78px;
-    padding-right:  78px;
+
+.main-card{
+    padding-left: 5%;
+    padding-right: 5%;
+    position: relative;
+    height: 1000px;
+    
+}
+
+.dark-mode .main-card {
+  /* Dark theme styles */
+  background-color: #202C36;
+}
+
+.search-icon{
+    max-width: 74px;
 }
 
 .dropdown{
@@ -42,6 +62,14 @@ top: -58.4px;
 left: 76.5em;
 border-radius: 8px;
 background-color: white;
+}
+
+.dark-mode .dropdown{
+  /* Dark theme styles */
+background: #2B3844;
+  color: white;
+  box-shadow: 0px 2px 9px 0px rgba(0, 0, 0, 0.05);
+
 }
 
 select:focus {
@@ -60,14 +88,44 @@ border: none;
 
 }
 
-.search-container{
-    width: 480px;
+.dark-mode #region-select{
+   
+background: yellow;
+
+
+}
+
+.region-dropdown{
+    /* display: none; */
+    width: 200px;
 height: 56px;
 flex-shrink: 0;
 border-radius: 5px;
 background: #FFF;
 box-shadow: 0px 2px 9px 0px rgba(0, 0, 0, 0.05);
+border: none;
 }
+
+.dark-mode .region-dropdown{
+    border-radius: 5px;
+background: #2B3844;
+box-shadow: 0px 2px 9px 0px rgba(0, 0, 0, 0.05);
+color:#FAFAFA;
+}
+
+
+.search-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 80px;
+  /* margin-top: 20px; */
+  position: relative;
+  top: 40px;
+}
+
+
+
 
 .search-icon{
      width: 480px;
@@ -79,6 +137,13 @@ box-shadow: 0px 2px 9px 0px rgba(0, 0, 0, 0.05);
 }
 
 
+.dark-mode .search-icon{
+border-radius: 5px;
+background: #2B3844;
+box-shadow: 0px 2px 9px 0px rgba(0, 0, 0, 0.05); 
+}
+
+
 .countrySearch{
      width: 480px;
 height: 56px;
@@ -87,19 +152,46 @@ border-radius: 5px;
 border: none;
 background: #FFF;
 box-shadow: 0px 2px 9px 0px rgba(0, 0, 0, 0.05);
+position: relative;
+right: 23.5%;
 }
+
+.dark-mode .countrySearch{
+border-radius: 5px;
+background: #2B3844;
+box-shadow: 0px 2px 9px 0px rgba(0, 0, 0, 0.05); 
+color: yellow;
+}
+
 
 input:focus {
   outline: none;
 }
 
 
-.country-grid{
+.Main-div{
     display: grid;
   grid-template-columns: repeat(4, 1fr);
-  grid-gap: 20px;
-  background-color: green;
-  /* border-radius: 8px; */
+  grid-gap: 80px;
+  background: #FAFAFA;
+  border-radius: 8px;
+}
+
+.dark-mode .Main-div{
+    background: #202C36;
+}
+
+.div-main{
+    border-radius: 5px;
+background: #FFF;
+box-shadow: 0px 0px 7px 2px rgba(0, 0, 0, 0.03);
+}
+
+.dark-mode .div-main{
+    border-radius: 5px;
+background: #2B3844;
+box-shadow: 0px 0px 7px 2px rgba(0, 0, 0, 0.03);
+color: #FAFAFA;
 }
 
 .country-card {
@@ -109,12 +201,93 @@ input:focus {
   border-radius: 8px;
 }
 
-#countryName, #population, #region, #capital{
-padding-left: 10%;
+
+.dark-mode .country-card{
+    border-radius: 5px;
+background: #2B3844;
+box-shadow: 0px 0px 7px 2px rgba(0, 0, 0, 0.03);
+color: #FAFAFA;
 }
 
-#flag{
-    width: 100%;
-    height: 160px;
-    border-radius: 8px;
+
+.main-card{
+    background-color: #FAFAFA;
 }
+
+.dark-mode *{
+text-decoration: none;
+color: white;
+}
+
+ *{
+text-decoration: none;
+color: black;
+}
+
+.countryName{
+    color: #111517;
+font-size: 18px;
+/* font-family: Nunito Sans; */
+font-style: normal;
+font-weight: 800;
+line-height: 26px;
+text-decoration: none !important;
+}
+
+.population {
+    text-decoration: none !important;
+    /* color: red; */
+    display: flex;
+  align-items: center;
+  color: #111517;
+font-size: 14px;
+font-family: Nunito Sans;
+font-style: normal;
+font-weight: 600;
+line-height: 16px;
+}
+#population-left {
+  margin-left: 35px;
+}
+
+.region{
+    color: black;
+    display: flex;
+  align-items: center;
+  color: #111517;
+font-size: 14px;
+font-family: Nunito Sans;
+font-style: normal;
+font-weight: 600;
+line-height: 16px;
+}
+#region-left {
+  margin-left: 35px;
+}
+
+.capital {
+  display: flex;
+  align-items: center;
+  color: #fafafa;
+font-size: 14px;
+font-family: Nunito Sans;
+font-style: normal;
+font-weight: 600;
+line-height: 16px;
+}
+
+#capital-left {
+  margin-left: 35px;
+}
+
+
+#capital-right, #region-right, #population-right{
+  font-weight: 300;
+      text-decoration: none !important;
+
+}
+
+
+
+
+
