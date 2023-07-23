@@ -14,8 +14,15 @@ const Header: React.FC = () => {
     <div className="header">
       <h1 className="desc">Where in the World?</h1>
       <button className="themeSwitch" onClick={handleThemeToggle}>
-        <i className="fa fa-moon-o" aria-hidden="false"></i>{" "}
-        {isDarkMode ? "Light Mode" : "Dark Mode"}
+        {isDarkMode ? (
+          <>
+            <i className="fas fa-sun" aria-hidden="true"></i> Light Mode
+          </>
+        ) : (
+          <>
+            <i className="fa-regular fa-moon"></i> Dark Mode
+          </>
+        )}
       </button>
     </div>
   );

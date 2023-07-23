@@ -12,6 +12,7 @@ import {
   useParams,
   useLocation,
 } from "react-router-dom";
+import "@fortawesome/fontawesome-free/css/all.min.css";
 import CountryCards from "../src/components/CountryCards/CountryCards";
 import CountryDetail from "../src/components/CountryDetail/CountryDetail";
 
@@ -27,6 +28,14 @@ type CountryDetailProps = {
   countryName: string;
   capital: string;
   population: number;
+  nativeName: string;
+  region: string;
+  subregion: string;
+  topLevelDomain: string[];
+  currencies: { name: string }[];
+  languages: { name: string }[];
+  borders: string[];
+  flags: { svg: string };
 };
 
 const CountryDetailWrapper: React.FC = () => {

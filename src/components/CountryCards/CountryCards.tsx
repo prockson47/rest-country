@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "./CountryCards.css";
 import CountryCard from "../CountryCard/Countrycard";
+import "@fortawesome/fontawesome-free/css/all.min.css";
+
 
 interface Country {
   name: string;
@@ -52,16 +54,20 @@ const CountryCards: React.FC = () => {
   return (
     <div className="main-card">
       <div className="search-container">
-        <span className="search-icon">
+        {/* <span className="search-icon">
           <i className="fa fa-search" aria-hidden="true"></i>
-        </span>
+        </span> */}
+
         <input
           type="text"
-          placeholder="Search by country"
+          placeholder={" Search by country"}
           className="countrySearch"
           value={searchValue}
           onChange={handleSearchChange}
         />
+        <span className="search-icon">
+          <i className="fa fa-search" aria-hidden="true"></i>
+        </span>
         <select
           className="region-dropdown"
           value={selectedRegion}
@@ -77,11 +83,9 @@ const CountryCards: React.FC = () => {
       </div>
 
       <div className="Main-div">
-        {filterCountries()
-          .slice(0, 8)
-          .map((country) => (
-            <CountryCard key={country.alpha3Code} countryData={country} />
-          ))}
+        {filterCountries().map((country) => (
+          <CountryCard key={country.alpha3Code} countryData={country} />
+        ))}
       </div>
     </div>
   );
