@@ -10,7 +10,7 @@ interface Country {
   population: number;
   region: string;
   capital: string;
-  alpha3Code: string;
+  countryName: string;
 }
 
 const CountryCards: React.FC = () => {
@@ -84,7 +84,7 @@ const CountryCards: React.FC = () => {
 
       <div className="Main-div">
         {filterCountries().map((country) => (
-          <CountryCard key={country.alpha3Code} countryData={country} />
+          <CountryCard key={country.countryName} countryData={country} />
         ))}
       </div>
     </div>

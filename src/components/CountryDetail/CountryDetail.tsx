@@ -15,7 +15,7 @@ interface CountryData {
   topLevelDomain: string[];
   currencies: { name: string }[];
   languages: { name: string }[];
-  borders: string[];
+  borders: string[]; // Alpha-3 country codes of bordering countries
   flags: { svg: string };
 }
 
@@ -25,11 +25,16 @@ const CountryDetail: React.FC<CountryDetailProps> = ({
   population,
 }) => {
   const [countryData, setCountryData] = useState<CountryData | null>(null);
+  const [borderCountries, setBorderCountries] = useState<string[]>([]);
   const navigate = useNavigate();
 
   useEffect(() => {
     fetchCountryData();
   }, []);
+
+  useEffect(() => {
+    fetchBorderCountries();
+  }, [countryData]);
 
   const fetchCountryData = () => {
     fetch("https://restcountries.com/v2/all")
@@ -45,12 +50,27 @@ const CountryDetail: React.FC<CountryDetailProps> = ({
       .catch((error) => console.log(error));
   };
 
-  const navigateBack = () => {
-    navigate(-1); // Navigate back to the previous page
+  const fetchBorderCountries = () => {
+    if (countryData?.borders) {
+      const alpha3Codes = countryData.borders;
+      Promise.all(
+        alpha3Codes.map((code) =>
+          fetch(`https://restcountries.com/v2/alpha/${code}`)
+            .then((response) => response.json())
+            .then((data) => data.name)
+        )
+      )
+        .then((names) => setBorderCountries(names))
+        .catch((error) => console.log(error));
+    }
   };
 
-  const getFlagImageUrl = (alpha2Code: string) => {
-    return `https://restcountries.com/data/${alpha2Code.toLowerCase()}.svg`;
+  const navigateBack = () => {
+    navigate(-1);
+  };
+
+  const getFlagImageUrl = (countryName: string) => {
+    return `https://restcountries.com/data/${countryName.toLowerCase()}.svg`;
   };
 
   return (
@@ -124,7 +144,7 @@ const CountryDetail: React.FC<CountryDetailProps> = ({
           <div className="lower-text">
             <p id="Border">Border Countries:</p>
             <div className="border-cards">
-              {countryData?.borders?.map((border) => (
+              {borderCountries.map((border) => (
                 <p key={border} id="single-border">
                   {border}
                 </p>

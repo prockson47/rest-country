@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
-import "./dark-theme.css"; // Import the dark-theme.css file
+import "./dark-theme.css"; 
 import Header from "../src/components/Header/Header";
-import Main from "../src/components/Main/Main"
+import Main from "../src/components/Main/Main";
 import CountryCard from "../src/components/CountryCard/Countrycard";
 import {
   BrowserRouter as Router,

@@ -126,9 +126,16 @@ padding-left: 1%;
     color: blue;
     width: 10px;
     height: 20px;
+    cursor: pointer;
     /* padding: 20%; */
 }
 
+.countrySearch:focus {
+  border: none; 
+  outline: none; 
+  cursor: text; 
+  
+}
 
 .countrySearch{
      width: 480px;
