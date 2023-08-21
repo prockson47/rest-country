@@ -15,7 +15,7 @@ interface CountryData {
   topLevelDomain: string[];
   currencies: { name: string }[];
   languages: { name: string }[];
-  borders: string[]; // Alpha-3 country codes of bordering countries
+  borders: string[];
   flags: { svg: string };
 }
 

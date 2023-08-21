@@ -3,7 +3,6 @@ import "./CountryCards.css";
 import CountryCard from "../CountryCard/Countrycard";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 
-
 interface Country {
   name: string;
   flag: string;
@@ -54,20 +53,20 @@ const CountryCards: React.FC = () => {
   return (
     <div className="main-card">
       <div className="search-container">
-        {/* <span className="search-icon">
-          <i className="fa fa-search" aria-hidden="true"></i>
-        </span> */}
+        <div className="search-bar">
+        <span className="search-icons">
+            <i className="fa fa-search" aria-hidden="true"></i>
+          </span>
+          <input
+            type="text"
+            placeholder={" Search by country"}
+            className="countrySearches"
+            value={searchValue}
+            onChange={handleSearchChange}
+          />
+          
+        </div>
 
-        <input
-          type="text"
-          placeholder={" Search by country"}
-          className="countrySearch"
-          value={searchValue}
-          onChange={handleSearchChange}
-        />
-        <span className="search-icon">
-          <i className="fa fa-search" aria-hidden="true"></i>
-        </span>
         <select
           className="region-dropdown"
           value={selectedRegion}

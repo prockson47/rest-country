@@ -14,6 +14,8 @@
     color: black;
     /* margin-bottom: 20px; */
     height: 80px;
+    padding: 24px 0;
+    /* display: none; */
 }
 
 .dark-mode .header {
@@ -71,6 +73,30 @@ background: #2B3844;
   box-shadow: 0px 2px 9px 0px rgba(0, 0, 0, 0.05);
 
 }
+
+.dark-mode .countrySearches{
+  /* Dark theme styles */
+background: #2B3844;
+  color: red;
+
+  
+
+}
+
+.dark-mode .countrySearches::placeholder {
+  color: white; 
+  
+}
+
+.dark-mode .search-bar{
+  /* Dark theme styles */
+background: #2B3844;
+  color: white;
+  box-shadow: 0px 2px 9px 0px rgba(0, 0, 0, 0.05);
+
+}
+
+
 
 select:focus {
   outline: none;
@@ -130,26 +156,14 @@ padding-left: 1%;
     /* padding: 20%; */
 }
 
-.countrySearch:focus {
+.countrySearches:focus {
   border: none; 
   outline: none; 
   cursor: text; 
   
 }
 
-.countrySearch{
-     width: 480px;
-height: 56px;
-flex-shrink: 0;
-border-radius: 5px;
-border: none;
-background: #FFF;
-box-shadow: 0px 2px 9px 0px rgba(0, 0, 0, 0.05);
-position: relative;
-right: 24.5%;
-padding-left: 4%;
-/* margin-right: 90%; */
-}
+
 
 input:focus {
   outline: none;
