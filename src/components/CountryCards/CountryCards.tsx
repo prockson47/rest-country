@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./CountryCards.css";
 import CountryCard from "../CountryCard/Countrycard";
 import "@fortawesome/fontawesome-free/css/all.min.css";
+import { getCountryData } from "../../apiService";
 
 interface Country {
   name: string;
@@ -19,9 +20,12 @@ const CountryCards: React.FC = () => {
 
   useEffect(() => {
     const fetchCountries = async () => {
-      const response = await fetch("https://restcountries.com/v2/all");
-      const data = await response.json();
-      setFilteredCountries(data);
+      try {
+        const countryData = await getCountryData();
+        setFilteredCountries(countryData);
+      } catch (error) {
+        console.error("Error fetching country data:", error);
+      }
     };
 
     fetchCountries();
@@ -54,7 +58,7 @@ const CountryCards: React.FC = () => {
     <div className="main-card">
       <div className="search-container">
         <div className="search-bar">
-        <span className="search-icons">
+          <span className="search-icons">
             <i className="fa fa-search" aria-hidden="true"></i>
           </span>
           <input
@@ -64,7 +68,6 @@ const CountryCards: React.FC = () => {
             value={searchValue}
             onChange={handleSearchChange}
           />
-          
         </div>
 
         <select

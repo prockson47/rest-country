@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
 import "./dark-theme.css"; 
+import { getCountryData } from "./apiService";
 import Header from "../src/components/Header/Header";
 import Main from "../src/components/Main/Main";
 import CountryCard from "../src/components/CountryCard/Countrycard";

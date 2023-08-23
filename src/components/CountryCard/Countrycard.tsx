@@ -2,15 +2,17 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./Countrycard.css";
 
-type CountryCardProps = {
-  countryData: {
-    name: string;
-    flag: string;
-    population: number;
-    region: string;
-    capital: string;
-  };
-};
+interface Country {
+  name: string;
+  flag: string;
+  population: number;
+  region: string;
+  capital: string;
+}
+
+interface CountryCardProps {
+  countryData: Country;
+}
 
 const CountryCard: React.FC<CountryCardProps> = ({ countryData }) => {
   const { name, flag, population, region, capital } = countryData;
