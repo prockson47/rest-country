@@ -16,14 +16,17 @@ export async function getCountryData() {
     const data = await fetchData();
 
     return data.map((country: any) => ({
-      flag: country.flags?.svg || "",
+      flags: country.flags?.svg || "",
       name: country.name?.common || "",
       population: country.population || 0,
       region: country.region || "",
       capital: country.capital?.[0] || "",
       nativeName: country.name?.nativeName?.common || "",
       subRegion: country.subregion || "",
-      borders: country.borders || []
+      borders: country.borders || [],
+      topLevelDomain: country.tld || [], 
+      currencies: Object.values(country.currencies || {}), 
+      languages: Object.values(country.languages || {})
     }));
   } catch (error) {
     console.error('Error fetching country data:', error);

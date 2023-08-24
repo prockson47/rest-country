@@ -83,16 +83,31 @@ const App: React.FC = () => {
   const [selectedRegion, setSelectedRegion] = useState<string>("");
   const [searchValue, setSearchValue] = useState<string>("");
 
+  // useEffect(() => {
+  //   const fetchCountries = async () => {
+  //     const countryData = await getCountryData();
+  //     const data = await response.json();
+  //     setCountries(data);
+  //     setFilteredCountries(data);
+  //   };
   useEffect(() => {
     const fetchCountries = async () => {
-      const response = await fetch("https://restcountries.com/v2/all");
-      const data = await response.json();
-      setCountries(data);
-      setFilteredCountries(data);
+      try {
+        const countryData = await getCountryData(); // Fetch data using your custom function
+  
+        setCountries(countryData);
+        setFilteredCountries(countryData);
+      } catch (error) {
+        console.error('Error fetching countries:', error);
+      }
     };
-
+  
     fetchCountries();
   }, []);
+  
+
+  //   fetchCountries();
+  // }, []);
 
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     const searchValue = event.target.value.toLowerCase();
