@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./CountryDetail.css";
-import { getCountryData } from "../../apiService";
+import { fetchCountryData, fetchBorderCountries } from "../../apiService";
 
 
 interface CountryDetailProps {
@@ -30,43 +30,22 @@ const CountryDetail: React.FC<CountryDetailProps> = ({
   const [borderCountries, setBorderCountries] = useState<string[]>([]);
   const navigate = useNavigate();
 
+ 
   useEffect(() => {
-    fetchCountryData();
-  }, []);
-
-  useEffect(() => {
-    fetchBorderCountries();
-  }, [countryData]);
-
-  const fetchCountryData = () => {
-    fetch("https://restcountries.com/v2/all")
-      .then((response) => response.json())
-      .then((data) => {
-        const country = data.find(
-          (country: any) => country.name === countryName
-        );
-        if (country) {
-          setCountryData(country);
-        }
+    fetchCountryData(countryName)
+      .then((country) => {
+        setCountryData(country);
       })
       .catch((error) => console.log(error));
-  };
-
-  const fetchBorderCountries = () => {
+  }, [countryName]);
+  
+  useEffect(() => {
     if (countryData?.borders) {
-      const alpha3Codes = countryData.borders;
-      Promise.all(
-        alpha3Codes.map((code) =>
-          fetch(`https://restcountries.com/v2/alpha/${code}`)
-            .then((response) => response.json())
-            .then((data) => data.name)
-        )
-      )
+      fetchBorderCountries(countryData.borders)
         .then((names) => setBorderCountries(names))
         .catch((error) => console.log(error));
     }
-  };
-
+  }, [countryData]);
   const navigateBack = () => {
     navigate(-1);
   };

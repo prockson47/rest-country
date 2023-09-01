@@ -50,3 +50,33 @@ export const fetchCountryByName = async (countryName: string) => {
     throw error;
   }
 };
+
+
+
+export const fetchCountryData = async (countryName: string) => {
+  try {
+    const response = await fetch(`https://restcountries.com/v2/all`);
+    const data = await response.json();
+    const country = data.find((country: any) => country.name === countryName);
+    return country;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+export const fetchBorderCountries = async (alpha3Codes: string[]) => {
+  try {
+    const borderCountries = await Promise.all(
+      alpha3Codes.map((code) => {
+        return fetch(`https://restcountries.com/v2/alpha/${code}`)
+          .then((response) => response.json())
+          .then((data) => data.name);
+      })
+    );
+    return borderCountries;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
