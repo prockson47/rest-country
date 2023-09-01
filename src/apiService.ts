@@ -16,7 +16,7 @@ export async function getCountryData() {
     const data = await fetchData();
 
     return data.map((country: any) => ({
-      flags: country.flags?.svg || "",
+      flag: country.flags?.svg || "",
       name: country.name?.common || "",
       population: country.population || 0,
       region: country.region || "",

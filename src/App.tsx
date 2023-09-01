@@ -2,14 +2,12 @@ import React, { useEffect, useState } from "react";
 import "./App.css";
 import "./dark-theme.css"; 
 import { getCountryData } from "./apiService";
+import { fetchCountryByName } from "./apiFunction";
 import Header from "../src/components/Header/Header";
-import Main from "../src/components/Main/Main";
-import CountryCard from "../src/components/CountryCard/Countrycard";
 import {
   BrowserRouter as Router,
   Route,
   Routes,
-  RouteProps,
   useParams,
   useLocation,
 } from "react-router-dom";
@@ -36,8 +34,13 @@ type CountryDetailProps = {
   currencies: { name: string }[];
   languages: { name: string }[];
   borders: string[];
-  flags: { svg: string };
+  // flag: { svg: string };
+  flag: string;
 };
+
+
+
+
 
 const CountryDetailWrapper: React.FC = () => {
   const { search } = useLocation();
@@ -48,15 +51,37 @@ const CountryDetailWrapper: React.FC = () => {
 
   const [country, setCountry] = useState<Country | null>(null);
 
+  // useEffect(() => {
+  //   const fetchCountry = async () => {
+  //     if (countryName) {
+  //       const response = await fetch(
+  //         `https://restcountries.com/v2/name/${countryName}`
+  //       );
+  //       const data = await response.json();
+  //       if (Array.isArray(data)) {
+  //         setCountry(data[0]);
+  //       }
+  //     }
+  //   };
+
+  //   fetchCountry();
+  // }, [countryName]);
+
+  
+
+  // if (!country) {
+  //   return <div>Country not found</div>;
+  // }
+
   useEffect(() => {
     const fetchCountry = async () => {
       if (countryName) {
-        const response = await fetch(
-          `https://restcountries.com/v2/name/${countryName}`
-        );
-        const data = await response.json();
-        if (Array.isArray(data)) {
-          setCountry(data[0]);
+        try {
+          const countryData = await fetchCountryByName(countryName); // Use the new API service function
+
+          setCountry(countryData);
+        } catch (error) {
+          console.error("Error fetching country:", error);
         }
       }
     };
@@ -67,6 +92,7 @@ const CountryDetailWrapper: React.FC = () => {
   if (!country) {
     return <div>Country not found</div>;
   }
+
 
   return (
     <CountryDetail

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./CountryDetail.css";
-import { getCountryData } from "../../apiService";
+import { fetchAllCountries, fetchCountryByAlpha3Code  } from "../../apiFunction";
 
 interface CountryDetailProps {
   countryName: string;
@@ -12,11 +12,11 @@ interface CountryDetailProps {
 interface CountryData {
   nativeName: string;
   region: string;
-  subRegion: string;
+  subregion: string;
   topLevelDomain: string[];
   currencies: { name: string }[];
   languages: { name: string }[];
-  borders: string[];
+  borders: string[]; 
   flags: { svg: string };
 }
 
@@ -37,61 +37,64 @@ const CountryDetail: React.FC<CountryDetailProps> = ({
     fetchBorderCountries();
   }, [countryData]);
 
-
-  const fetchCountryData = async () => {
-    try {
-      const data = await getCountryData();
-      const country = data.find((country: any) => country.name === countryName);
-      if (country) {
-        setCountryData(country);
-      }
-    } catch (error) {
-      console.error('Error fetching country data:', error);
-    }
+  // const fetchCountryData = () => {
+  //   fetch("https://restcountries.com/v2/all")
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       const country = data.find(
+  //         (country: any) => country.name === countryName
+  //       );
+  //       if (country) {
+  //         setCountryData(country);
+  //       }
+  //     })
+  //     .catch((error) => console.log(error));
+  // };
+  const fetchCountryData = () => {
+    fetchAllCountries()
+      .then((data: any[]) => {
+        const country = data.find(
+          (country: any) => country.name === countryName
+        );
+        if (country) {
+          setCountryData(country);
+        }
+      })
+      .catch((error: any) => console.log(error));
   };
 
-  
-
-  const fetchCountryDataByAlpha3Code = async (code: string) => {
-    try {
-      const response = await fetch(`https://restcountries.com/v2/alpha/${code}`);
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      console.error('Error fetching border country data:', error);
-      throw error;
-    }
-  };
-  
+  // const fetchBorderCountries = () => {
+  //   if (countryData?.borders) {
+  //     const alpha3Codes = countryData.borders;
+  //     Promise.all(
+  //       alpha3Codes.map((code) =>
+  //         fetch(`https://restcountries.com/v2/alpha/${code}`)
+  //           .then((response) => response.json())
+  //           .then((data) => data.name)
+  //       )
+  //     )
+  //       .then((names) => setBorderCountries(names))
+  //       .catch((error) => console.log(error));
+  //   }
+  // };
   const fetchBorderCountries = () => {
     if (countryData?.borders) {
       const alpha3Codes = countryData.borders;
       Promise.all(
         alpha3Codes.map((code) =>
-          fetchCountryDataByAlpha3Code(code)
-            .then((data) => data.name)
+          fetchCountryByAlpha3Code(code)
+            .then((data: { name: any; }) => data.name)
         )
       )
         .then((names) => setBorderCountries(names))
         .catch((error) => console.log(error));
     }
   };
-  
-  
-  
-  
-  
-  
-
-
-
   const navigateBack = () => {
     navigate(-1);
   };
 
-  const getFlagImageUrl = (countryName: string) => {
-    return `https://restcountries.com/data/${countryName.toLowerCase()}.svg`;
-  };
+  
 
   return (
     <div className="detail-main">
@@ -117,10 +120,7 @@ const CountryDetail: React.FC<CountryDetailProps> = ({
               <h2 id="detail-countryname">{countryName}</h2>
               <div className="native-main">
                 <p id="native-left">Native Name:</p>
-                {/* <p id="native-right">{(countryData?.nativeName?.common || "")}</p> */}
-                <p id="native-right">{countryData?.nativeName || "ghghg"}</p>
-
-                {/* <p id="native-right">{countryData?.nativeName?.common || ""}</p> */}
+                <p id="native-right">{countryData?.nativeName || ""}</p>
               </div>
               <div className="population-main">
                 <p id="population-left">Population:</p>
@@ -132,7 +132,7 @@ const CountryDetail: React.FC<CountryDetailProps> = ({
               </div>
               <div className="sub-region-main">
                 <p id="Sub-Region-left">Sub Region:</p>
-                <p id="Sub-Region-right">{countryData?.subRegion || ""}</p>
+                <p id="Sub-Region-right">{countryData?.subregion || ""}</p>
               </div>
               <div className="capital-main">
                 <p id="Capital-left">Capital:</p>
@@ -147,7 +147,7 @@ const CountryDetail: React.FC<CountryDetailProps> = ({
                 </p>
               </div>
               <div className="currency-main">
-                <p id="Currencies-left">Currencies: </p>
+                <p id="Currencies-left">Currencies:</p>
                 <p id="Currencies-right">
                   {countryData?.currencies
                     ?.map((currency) => currency.name)
