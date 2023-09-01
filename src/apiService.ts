@@ -33,3 +33,20 @@ export async function getCountryData() {
     throw error;
   }
 }
+
+
+export const fetchCountryByName = async (countryName: string) => {
+  try {
+    const response = await fetch(
+      `https://restcountries.com/v3.1/name/${countryName}`
+    );
+    const data = await response.json();
+    if (Array.isArray(data)) {
+      return data[0];
+    } else {
+      throw new Error("Country not found");
+    }
+  } catch (error) {
+    throw error;
+  }
+};

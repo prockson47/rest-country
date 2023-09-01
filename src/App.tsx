@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
 import "./dark-theme.css"; 
-import { getCountryData } from "./apiService";
-import { fetchCountryByName } from "./apiFunction";
+import { fetchCountryByName, getCountryData } from "./apiService";
 import Header from "../src/components/Header/Header";
 import {
   BrowserRouter as Router,
   Route,
   Routes,
-  useParams,
+  
   useLocation,
 } from "react-router-dom";
 import "@fortawesome/fontawesome-free/css/all.min.css";
@@ -23,20 +22,6 @@ type Country = {
   capital?: string;
 };
 
-type CountryDetailProps = {
-  countryName: string;
-  capital: string;
-  population: number;
-  nativeName: string;
-  region: string;
-  subregion: string;
-  topLevelDomain: string[];
-  currencies: { name: string }[];
-  languages: { name: string }[];
-  borders: string[];
-  // flag: { svg: string };
-  flag: string;
-};
 
 
 
@@ -51,27 +36,8 @@ const CountryDetailWrapper: React.FC = () => {
 
   const [country, setCountry] = useState<Country | null>(null);
 
-  // useEffect(() => {
-  //   const fetchCountry = async () => {
-  //     if (countryName) {
-  //       const response = await fetch(
-  //         `https://restcountries.com/v2/name/${countryName}`
-  //       );
-  //       const data = await response.json();
-  //       if (Array.isArray(data)) {
-  //         setCountry(data[0]);
-  //       }
-  //     }
-  //   };
+ 
 
-  //   fetchCountry();
-  // }, [countryName]);
-
-  
-
-  // if (!country) {
-  //   return <div>Country not found</div>;
-  // }
 
   useEffect(() => {
     const fetchCountry = async () => {
@@ -104,22 +70,18 @@ const CountryDetailWrapper: React.FC = () => {
 };
 
 const App: React.FC = () => {
-  const [countries, setCountries] = useState<Country[]>([]);
-  const [filteredCountries, setFilteredCountries] = useState<Country[]>([]);
-  const [selectedRegion, setSelectedRegion] = useState<string>("");
-  const [searchValue, setSearchValue] = useState<string>("");
+  const [, setCountries] = useState<Country[]>([]);
+  const [, setFilteredCountries] = useState<Country[]>([]);
+  // eslint-disable-next-line no-empty-pattern
+  const [] = useState<string>("");
+  // eslint-disable-next-line no-empty-pattern
+  const [] = useState<string>("");
 
-  // useEffect(() => {
-  //   const fetchCountries = async () => {
-  //     const countryData = await getCountryData();
-  //     const data = await response.json();
-  //     setCountries(data);
-  //     setFilteredCountries(data);
-  //   };
+  
   useEffect(() => {
     const fetchCountries = async () => {
       try {
-        const countryData = await getCountryData(); // Fetch data using your custom function
+        const countryData = await getCountryData(); 
   
         setCountries(countryData);
         setFilteredCountries(countryData);
@@ -132,38 +94,10 @@ const App: React.FC = () => {
   }, []);
   
 
-  //   fetchCountries();
-  // }, []);
+ 
 
-  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const searchValue = event.target.value.toLowerCase();
-    setSearchValue(searchValue);
-    filterCountries(selectedRegion, searchValue);
-  };
 
-  const handleRegionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedRegion = event.target.value;
-    setSelectedRegion(selectedRegion);
-    filterCountries(selectedRegion, searchValue);
-  };
 
-  const filterCountries = (selectedRegion: string, searchValue: string) => {
-    let filtered = countries;
-
-    if (selectedRegion) {
-      filtered = filtered.filter(
-        (country) => country.region === selectedRegion
-      );
-    }
-
-    if (searchValue) {
-      filtered = filtered.filter((country) =>
-        country.name.toLowerCase().includes(searchValue)
-      );
-    }
-
-    setFilteredCountries(filtered);
-  };
 
   return (
     <Router>

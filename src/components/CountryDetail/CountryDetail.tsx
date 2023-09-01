@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./CountryDetail.css";
-import { fetchAllCountries, fetchCountryByAlpha3Code  } from "../../apiFunction";
+import { getCountryData } from "../../apiService";
+
 
 interface CountryDetailProps {
   countryName: string;
@@ -37,22 +38,10 @@ const CountryDetail: React.FC<CountryDetailProps> = ({
     fetchBorderCountries();
   }, [countryData]);
 
-  // const fetchCountryData = () => {
-  //   fetch("https://restcountries.com/v2/all")
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       const country = data.find(
-  //         (country: any) => country.name === countryName
-  //       );
-  //       if (country) {
-  //         setCountryData(country);
-  //       }
-  //     })
-  //     .catch((error) => console.log(error));
-  // };
   const fetchCountryData = () => {
-    fetchAllCountries()
-      .then((data: any[]) => {
+    fetch("https://restcountries.com/v2/all")
+      .then((response) => response.json())
+      .then((data) => {
         const country = data.find(
           (country: any) => country.name === countryName
         );
@@ -60,41 +49,27 @@ const CountryDetail: React.FC<CountryDetailProps> = ({
           setCountryData(country);
         }
       })
-      .catch((error: any) => console.log(error));
+      .catch((error) => console.log(error));
   };
 
-  // const fetchBorderCountries = () => {
-  //   if (countryData?.borders) {
-  //     const alpha3Codes = countryData.borders;
-  //     Promise.all(
-  //       alpha3Codes.map((code) =>
-  //         fetch(`https://restcountries.com/v2/alpha/${code}`)
-  //           .then((response) => response.json())
-  //           .then((data) => data.name)
-  //       )
-  //     )
-  //       .then((names) => setBorderCountries(names))
-  //       .catch((error) => console.log(error));
-  //   }
-  // };
   const fetchBorderCountries = () => {
     if (countryData?.borders) {
       const alpha3Codes = countryData.borders;
       Promise.all(
         alpha3Codes.map((code) =>
-          fetchCountryByAlpha3Code(code)
-            .then((data: { name: any; }) => data.name)
+          fetch(`https://restcountries.com/v2/alpha/${code}`)
+            .then((response) => response.json())
+            .then((data) => data.name)
         )
       )
         .then((names) => setBorderCountries(names))
         .catch((error) => console.log(error));
     }
   };
+
   const navigateBack = () => {
     navigate(-1);
   };
-
-  
 
   return (
     <div className="detail-main">
