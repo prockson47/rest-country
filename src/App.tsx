@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
 import "./dark-theme.css"; 
-import { fetchCountryByName, getCountryData } from "./apiService";
+import {  getCountryData } from './apiService'
+
+
 import Header from "../src/components/Header/Header";
 import {
   BrowserRouter as Router,
@@ -43,7 +45,7 @@ const CountryDetailWrapper: React.FC = () => {
     const fetchCountry = async () => {
       if (countryName) {
         try {
-          const countryData = await fetchCountryByName(countryName); // Use the new API service function
+          const countryData = await getCountryData (); // Use the new API service function
 
           setCountry(countryData);
         } catch (error) {

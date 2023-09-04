@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./CountryDetail.css";
-import { fetchCountryData, fetchBorderCountries } from "../../apiService";
+import {getCountryData  } from "../../apiService";
 
 
 interface CountryDetailProps {
@@ -10,45 +10,37 @@ interface CountryDetailProps {
   population: number;
 }
 
-interface CountryData {
-  nativeName: string;
-  region: string;
-  subregion: string;
-  topLevelDomain: string[];
-  currencies: { name: string }[];
-  languages: { name: string }[];
-  borders: string[]; 
-  flags: { svg: string };
-}
 
 const CountryDetail: React.FC<CountryDetailProps> = ({
   countryName,
   capital,
   population,
 }) => {
-  const [countryData, setCountryData] = useState<CountryData | null>(null);
+  const [countryData, setCountryData] = useState<any | null>(null);
   const [borderCountries, setBorderCountries] = useState<string[]>([]);
   const navigate = useNavigate();
 
- 
   useEffect(() => {
-    fetchCountryData(countryName)
-      .then((country) => {
-        setCountryData(country);
-      })
-      .catch((error) => console.log(error));
+    const fetchCountryData = async () => {
+      try {
+        const data = await getCountryData();
+        const country = data.find((country: any) => country.name === countryName);
+        if (country) {
+          setCountryData(country);
+          setBorderCountries(country.borders);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchCountryData();
   }, [countryName]);
-  
-  useEffect(() => {
-    if (countryData?.borders) {
-      fetchBorderCountries(countryData.borders)
-        .then((names) => setBorderCountries(names))
-        .catch((error) => console.log(error));
-    }
-  }, [countryData]);
+
   const navigateBack = () => {
     navigate(-1);
   };
+
 
   return (
     <div className="detail-main">
@@ -104,7 +96,7 @@ const CountryDetail: React.FC<CountryDetailProps> = ({
                 <p id="Currencies-left">Currencies:</p>
                 <p id="Currencies-right">
                   {countryData?.currencies
-                    ?.map((currency) => currency.name)
+                    ?.map((currency: { name: any; }) => currency.name)
                     .join(", ") || ""}
                 </p>
               </div>
@@ -112,7 +104,7 @@ const CountryDetail: React.FC<CountryDetailProps> = ({
                 <p id="Languages-left">Languages:</p>
                 <p id="Languages-right">
                   {countryData?.languages
-                    ?.map((language) => language.name)
+                    ?.map((language: { name: any; }) => language.name)
                     .join(", ") || ""}
                 </p>
               </div>

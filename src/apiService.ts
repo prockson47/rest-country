@@ -1,9 +1,19 @@
 const API_BASE_URL = 'https://restcountries.com/v3.1/all';
+const countryCache = new Map(); // Use a Map for caching
 
-async function fetchData() {
+async function fetchData(url: RequestInfo | URL) {
   try {
-    const response = await fetch(API_BASE_URL);
+    if (countryCache.has(url)) {
+      // If data is already cached, return it
+      return countryCache.get(url);
+    }
+
+    const response = await fetch(url);
     const data = await response.json();
+
+    // Cache the data
+    countryCache.set(url, data);
+
     return data;
   } catch (error) {
     console.error('Error fetching data:', error);
@@ -13,9 +23,9 @@ async function fetchData() {
 
 export async function getCountryData() {
   try {
-    const data = await fetchData();
+    const data = await fetchData(API_BASE_URL);
 
-    return data.map((country: any) => ({
+    return data.map((country: { flags: { svg: any; }; name: { common: any; nativeName: { common: any; }; }; population: any; region: any; capital: any[]; subregion: any; borders: any; tld: any; currencies: any; languages: any; }) => ({
       flag: country.flags?.svg || "",
       name: country.name?.common || "",
       population: country.population || 0,
@@ -34,49 +44,3 @@ export async function getCountryData() {
   }
 }
 
-
-export const fetchCountryByName = async (countryName: string) => {
-  try {
-    const response = await fetch(
-      `https://restcountries.com/v3.1/name/${countryName}`
-    );
-    const data = await response.json();
-    if (Array.isArray(data)) {
-      return data[0];
-    } else {
-      throw new Error("Country not found");
-    }
-  } catch (error) {
-    throw error;
-  }
-};
-
-
-
-export const fetchCountryData = async (countryName: string) => {
-  try {
-    const response = await fetch(`https://restcountries.com/v2/all`);
-    const data = await response.json();
-    const country = data.find((country: any) => country.name === countryName);
-    return country;
-  } catch (error) {
-    console.log(error);
-    throw error;
-  }
-};
-
-export const fetchBorderCountries = async (alpha3Codes: string[]) => {
-  try {
-    const borderCountries = await Promise.all(
-      alpha3Codes.map((code) => {
-        return fetch(`https://restcountries.com/v2/alpha/${code}`)
-          .then((response) => response.json())
-          .then((data) => data.name);
-      })
-    );
-    return borderCountries;
-  } catch (error) {
-    console.log(error);
-    throw error;
-  }
-};
