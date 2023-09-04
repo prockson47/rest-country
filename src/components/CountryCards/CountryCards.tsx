@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { Key, useEffect, useState } from "react";
 import "./CountryCards.css";
 import CountryCard from "../CountryCard/Countrycard";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import { getCountryData } from "../../apiService";
 
 interface Country {
+  id: Key | null | undefined;
   name: string;
   flag: string;
   population: number;
@@ -85,10 +86,11 @@ const CountryCards: React.FC = () => {
       </div>
 
       <div className="Main-div">
-        {filterCountries().map((country) => (
-          <CountryCard key={country.countryName} countryData={country} />
-        ))}
-      </div>
+  {filterCountries().map((country) => (
+    <CountryCard key={country.id} countryData={country} />
+  ))}
+</div>
+
     </div>
   );
 };

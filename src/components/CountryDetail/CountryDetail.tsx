@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./CountryDetail.css";
-import {getCountryData  } from "../../apiService";
-
+import { getCountryData } from "../../apiService";
 
 interface CountryDetailProps {
   countryName: string;
   capital: string;
   population: number;
 }
-
 
 const CountryDetail: React.FC<CountryDetailProps> = ({
   countryName,
@@ -24,23 +22,29 @@ const CountryDetail: React.FC<CountryDetailProps> = ({
     const fetchCountryData = async () => {
       try {
         const data = await getCountryData();
-        const country = data.find((country: any) => country.name === countryName);
+        const country = data.find(
+          (country: any) => country.name === countryName
+        );
         if (country) {
           setCountryData(country);
           setBorderCountries(country.borders);
+          console.log("Country Data:", country);
         }
       } catch (error) {
         console.error(error);
       }
     };
 
+    // Log the countryName and countryData
+    console.log("countryName:", countryName);
+    console.log("countryData:", countryData);
+
     fetchCountryData();
-  }, [countryName]);
+  }, [countryData, countryName]);
 
   const navigateBack = () => {
     navigate(-1);
   };
-
 
   return (
     <div className="detail-main">
@@ -52,9 +56,9 @@ const CountryDetail: React.FC<CountryDetailProps> = ({
       </div>
       <div className="detail-div">
         <div className="detail-flag">
-          {countryData && countryData.flags && (
+          {countryData && countryData.flag && (
             <img
-              src={countryData.flags.svg}
+              src={countryData.flag}
               alt={`${countryName} Flag`}
               className="flag-image"
             />
@@ -64,9 +68,13 @@ const CountryDetail: React.FC<CountryDetailProps> = ({
           <div className="upper-text">
             <div className="left-upper">
               <h2 id="detail-countryname">{countryName}</h2>
+
               <div className="native-main">
                 <p id="native-left">Native Name:</p>
-                <p id="native-right">{countryData?.nativeName || ""}</p>
+
+                <p id="native-right">
+                  {countryData?.name?.nativeName?.common || "N/A"}
+                </p>
               </div>
               <div className="population-main">
                 <p id="population-left">Population:</p>
@@ -78,7 +86,7 @@ const CountryDetail: React.FC<CountryDetailProps> = ({
               </div>
               <div className="sub-region-main">
                 <p id="Sub-Region-left">Sub Region:</p>
-                <p id="Sub-Region-right">{countryData?.subregion || ""}</p>
+                <p id="Sub-Region-right">{countryData?.subRegion || "N/A"}</p>
               </div>
               <div className="capital-main">
                 <p id="Capital-left">Capital:</p>
@@ -96,16 +104,17 @@ const CountryDetail: React.FC<CountryDetailProps> = ({
                 <p id="Currencies-left">Currencies:</p>
                 <p id="Currencies-right">
                   {countryData?.currencies
-                    ?.map((currency: { name: any; }) => currency.name)
+                    ?.map((currency: { name: any }) => currency.name)
                     .join(", ") || ""}
                 </p>
               </div>
+
               <div className="language">
                 <p id="Languages-left">Languages:</p>
                 <p id="Languages-right">
                   {countryData?.languages
-                    ?.map((language: { name: any; }) => language.name)
-                    .join(", ") || ""}
+                    ? Object.values(countryData.languages).join(", ")
+                    : "N/A"}
                 </p>
               </div>
             </div>

@@ -25,7 +25,9 @@ export async function getCountryData() {
   try {
     const data = await fetchData(API_BASE_URL);
 
-    return data.map((country: { flags: { svg: any; }; name: { common: any; nativeName: { common: any; }; }; population: any; region: any; capital: any[]; subregion: any; borders: any; tld: any; currencies: any; languages: any; }) => ({
+    return data.map((country: { flags: { svg: any; }; name: { common: any; nativeName: {
+      common: any; 
+}; }; population: any; region: any; capital: any[]; subregion: any; borders: any; tld: any; currencies: any; languages: any; }) => ({
       flag: country.flags?.svg || "",
       name: country.name?.common || "",
       population: country.population || 0,
