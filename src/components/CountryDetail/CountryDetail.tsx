@@ -19,21 +19,52 @@ const CountryDetail: React.FC<CountryDetailProps> = ({
   const navigate = useNavigate();
 
   useEffect(() => {
+
     const fetchCountryData = async () => {
       try {
         const data = await getCountryData();
-        const country = data.find(
-          (country: any) => country.name === countryName
-        );
+        const country = data.find((country: any) => country.name === countryName);
         if (country) {
           setCountryData(country);
-          setBorderCountries(country.borders);
+    
+          // Fetch border country names
+          // const borderNames = await Promise.all(
+          //   country.borders.map(async (borderCode: string) => {
+          //     const borderCountry = data.find(
+          //       (c: any) => c.alpha3Code === borderCode
+          //     );
+          //     return borderCountry?.name || borderCode;
+          //   })
+          // );
+    
+          // setBorderCountries(borderNames);
+          const borderNames = await Promise.all(
+            country.borders.map(async (borderCode: string) => {
+              const borderCountry = data.find(
+                (c: any) => c.alpha3Code === borderCode
+              );
+              return borderCountry?.name || borderCode;
+            })
+          );
+          
+          // Fetch the actual country names for border countries
+          const actualBorderNames = borderNames.map((borderNameOrCode: string) => {
+            const borderCountry = data.find(
+              (c: any) => c.name === borderNameOrCode
+            );
+            return borderCountry?.name || borderNameOrCode;
+          });
+          
+          setBorderCountries(actualBorderNames);
+          
           console.log("Country Data:", country);
         }
       } catch (error) {
         console.error(error);
       }
     };
+    
+    
 
     // Log the countryName and countryData
     console.log("countryName:", countryName);

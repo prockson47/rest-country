@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "./Countrycard.css";
+// import "./Countrycard.css";
 
 interface Country {
   name: string;
@@ -19,8 +19,11 @@ const CountryCard: React.FC<CountryCardProps> = ({ countryData }) => {
 
   return (
     <div className="div-main">
+      
       <Link
+      //  key={index}
         to={`/country-detail?countryName=${name}&capital=${capital}&population=${population}`}
+        target="#"
         className="country-card"
       >
         <img id="flag" src={flag} alt={name} className="flag-image" />

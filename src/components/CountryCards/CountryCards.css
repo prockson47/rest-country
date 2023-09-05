@@ -1,8 +1,5 @@
 * {
-    /* background-color: green; */
-    /* display: none; */
     font-family: 'Nunito Sans', sans-serif;
-    /* font-size: 60px; */
 }
 
 .header{
@@ -12,10 +9,8 @@
     padding-left: 81px;
     padding-right: 81px;
     color: black;
-    /* margin-bottom: 20px; */
     height: 80px;
     padding: 24px 0;
-    /* display: none; */
 }
 
 .dark-mode .header {
@@ -229,9 +224,7 @@ font-weight: 600;
 line-height: 16px;
 margin-left: 11%;
 }
-#population-left {
-  /* margin-left: 35px; */
-}
+
 
 .region{
     color: black;
@@ -244,6 +237,7 @@ font-style: normal;
 font-weight: 600;
 line-height: 16px;
 }
+
 #region-left {
   margin-left: 35px;
 }
@@ -269,6 +263,15 @@ line-height: 16px;
       text-decoration: none !important;
 
 }
+
+/* Styles for screens between 767px and 376px */
+@media (min-width: 375px) and (max-width: 767px) {
+  .header{
+    background-color: black;
+    display: none;
+}
+}
+
 
 
 

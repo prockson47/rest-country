@@ -30,7 +30,7 @@ box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.06);
 .dark-mode * {
   /* Dark theme styles */
   color: white;
-}
+}z
 
 
 
@@ -240,7 +240,8 @@ top: 20px;
     position: relative;
     top:25px;
     align-items: center;
-    width: 100px;
+    width: 140px;
+    
 }
 
 .detail-main{
@@ -314,3 +315,4 @@ margin-bottom: 60px;
 
 
 }
+

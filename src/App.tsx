@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./App.css";
 import "./dark-theme.css"; 
 import {  getCountryData } from './apiService'
-
+// import { useParams } from "react-router-dom";
 
 import Header from "../src/components/Header/Header";
 import {
@@ -30,6 +30,7 @@ type Country = {
 
 
 const CountryDetailWrapper: React.FC = () => {
+  
   const { search } = useLocation();
   const queryParams = new URLSearchParams(search);
   const countryName = queryParams.get("countryName");
@@ -45,8 +46,7 @@ const CountryDetailWrapper: React.FC = () => {
     const fetchCountry = async () => {
       if (countryName) {
         try {
-          const countryData = await getCountryData (); // Use the new API service function
-
+          const countryData = await getCountryData (); 
           setCountry(countryData);
         } catch (error) {
           console.error("Error fetching country:", error);
